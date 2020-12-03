@@ -73,12 +73,65 @@
 % adds candidate number and word count in place of name and college
 \masterssubmissionfalse
 
+% The year and month the degree is awarded
+\def\Year#1{\gdef\@Year{#1}}
+\def\Month#1{\gdef\@Month{#1}}
+
+% The institution name
+\newcommand{\University}[1]{\gdef\@University{#1}}
+
+% The department name
+\newcommand{\Department}[1]{\gdef\@Department{#1}}
+
+% The name of the advisor
+\newcommand{\Advisor}[1]{\gdef\@Advisor{#1}}
+
+% The title of the advisor
+\newcommand{\AdvisorTitle}[1]{\gdef\@AdvisorTitle{#1}}
+
+% The name of the committee member 2
+\newcommand{\MemberA}[1]{\gdef\@MemberA{#1}}
+
+% The tile of the committee member 2
+\newcommand{\MemberATitle}[1]{\gdef\@MemberATitle{#1}}
+
+% The name of the committee member 3
+\newcommand{\MemberB}[1]{\gdef\@MemberB{#1}}
+
+% The tile of the committee member 3
+\newcommand{\MemberBTitle}[1]{\gdef\@MemberBTitle{#1}}
+
+% The name of the committee member 4
+\newcommand{\MemberC}[1]{\gdef\@MemberC{#1}}
+
+% The tile of the committee member 4
+\newcommand{\MemberCTitle}[1]{\gdef\@MemberCTitle{#1}}
+
+% The name of the committee member 5
+\newcommand{\MemberD}[1]{\gdef\@MemberD{#1}}
+
+% The tile of the committee member 5
+\newcommand{\MemberDTitle}[1]{\gdef\@MemberDTitle{#1}}
+% If you only have three members including your advisor then delete Member C (needs multiple deletes below too)
+
+% The name of the department chair
+\newcommand{\DepRep}[1]{\gdef\@DepRep{#1}}
+
+% The title of the department chair (allow for associate chair, etc.)
+\newcommand{\DepRepTitle}[1]{\gdef\@DepRepTitle{#1}}
+
+% The name of the dean
+\newcommand{\Dean}[1]{\gdef\@Dean{#1}}
+
+% The title of the dean
+\newcommand{\DeanTitle}[1]{\gdef\@DeanTitle{#1}}
+
 
 %
 % CRESTS
 %
 
-\def\crest{{\includegraphics{figures/beltcrest.pdf}}}
+\def\crest{{\includegraphics{figures/HarrisburgU_Logo.png}}}
 
 
 %
@@ -99,23 +152,29 @@
 \fancyhf{} % clear the header and footers
 \pagestyle{fancy}
 \renewcommand{\chaptermark}[1]{\markboth{\thechapter. #1}{\thechapter. #1}}
-\renewcommand{\sectionmark}[1]{\markright{\thesection. #1}} 
+% \renewcommand{\chaptermark}[1]{\markboth{\thechapter. #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection. #1}}
 \renewcommand{\headrulewidth}{0pt}
-\fancyhead[LO]{\emph{\leftmark}} 
-\fancyhead[RE]{\emph{\rightmark}} 
-\fancyhead[RO,LE]{\emph{\thepage}}
+\fancyhead[CO]{\emph{\leftmark}}
+\fancyhead[CE]{\emph{\rightmark}}
+% \fancyhead[LO,RE]{}
+% \fancyhead[LE,RO]{}
+\fancyfoot[CO,CE]{\emph{\thepage}}
 
 \fancypagestyle{plain}{\fancyhf{}\fancyfoot[C]{\emph{\thepage}}}
 
 % JEM fix header on cleared pages for openright
 \def\cleardoublepage{\clearpage\if@twoside \ifodd\c@page\else
    \hbox{}
-   \fancyhead[RE,LO]{}
+   % \fancyhead[RE,LO]{}
+   \fancyhead[CE,CO]{}
    \newpage
    \if@twocolumn\hbox{}\newpage
    \fi
-   \fancyhead[LO]{\emph{\leftmark}} 
-   \fancyhead[RE]{\emph{\rightmark}} 
+   % \fancyhead[LO]{\emph{\leftmark}} 
+   % \fancyhead[RE]{\emph{\rightmark}} 
+   \fancyhead[CO]{\emph{\leftmark}} 
+   \fancyhead[CE]{\emph{\rightmark}} 
    \fi\fi}
 
 
@@ -206,6 +265,7 @@
     \renewcommand{\footnotesize}{\small}
     \renewcommand{\footnoterule}{\relax}
     \thispagestyle{empty}
+    \providecommand\pdfbookmark[3][]{} \pdfbookmark[0]{Title}{bm:Title}
 \ifmasterssubmission
   \begin{center}
   \vspace*{-3ex}
@@ -226,25 +286,118 @@
 \else
   \begin{center}
     { \LARGE {\bfseries {\@title}} \par}
-{\large \vspace*{30mm} {\crest \par} \vspace*{25mm}}
+%{\large \vspace*{30mm} {\crest \par} \vspace*{25mm}}
+  \vfill
+    By\\[\baselineskip]
     {{\Large \@author} \par}
 {\large \vspace*{1ex}
-    {{\@college} \par}
+  \vfill
+    A dissertation submitted for the degree of\\
+    \MakeUppercase{\@degree} \\[\baselineskip]
+    \begin{figure}[ht!]
+    \begin{center}
+    \includegraphics[height=2cm]{figures/HarrisburgU_Logo.png}
+    \end{center}
+    \end{figure}
+    {{Department of Analytics} \par}
 \vspace*{1ex}
-    {University of Oxford \par}
-\vspace*{20mm}
-    {{\submittedtext} \par}
+    {Harrisburg University of Science and Technology \par}
 \vspace*{1ex}
-    {\it {\@degree} \par}
-\vspace*{2ex}
-    {\@degreedate}}
+    {\@Month} {\@Year}}
   \end{center}
 \fi
   \vfill\null
 \end{alwayssingle}}
 
+% COPYRIGHT
+% ======================== Copyright page ===============================
+\newcommand{\copyrightpage}{
+    \thispagestyle{empty}
+    %\providecommand\pdfbookmark[3][]{} \pdfbookmark[0]{Copyright}{bm:Copyright}
+    \addtocounter{page}{-1}
+    \vspace*{\fill}
+    \vfill
+    \begin{center}
+    \copyright\ Copyright by \MakeUppercase{\@author},~\@Year\\
+    All Rights Reserved
+    \end{center}
+%    \vspace{1in}
+    \clearpage
+  }
 
 
+% =============================== Approval page =======================
+\newcommand{\datebox}{
+    \parbox[t]{1.5in}{
+        \ \\[2\baselineskip]
+        \rule{0.in}{0.4pt}\\
+
+    }
+}
+
+\newcommand{\signaturebox}[1]{
+    \parbox[t]{3.6in}{
+        \ \\[2\baselineskip]
+        \rule{3.6in}{0.4pt}\\
+        #1
+    }
+}
+
+\newcommand{\phdapprovalpage}{
+    \thispagestyle{plain}
+    \begin{center}
+    %\providecommand\pdfbookmark[3][]{} \pdfbookmark[0]{Graduate Committee Approval}{bm:ComAp}
+    \vspace*{0.375in}
+    \textbf{Ph.D. COMMITTEE APPROVAL}\\[3\baselineskip]
+    \end{center}
+    \noindent
+    To the Faculty of \@University:
+    \par The members of the Committee appointed to examine the dissertation
+of \MakeUppercase{\@author} find it satisfactory and recommend that it be accepted.\\[\baselineskip]
+    \par
+    \datebox\hfill\signaturebox{\@Advisor, \@AdvisorTitle, Chair}\\
+    \datebox\hfill\signaturebox{\@MemberA, \@MemberATitle}\\
+    \datebox\hfill\signaturebox{\@MemberB, \@MemberBTitle}\\
+    \datebox\hfill\signaturebox{\@MemberC, \@MemberCTitle}\\    
+    \datebox\hfill\signaturebox{\@MemberD, \@MemberDTitle}\\     
+    \vfill
+    \clearpage
+  }
+  
+  
+% ======================= Acceptance Page ============================
+\newcommand{\acceptancepage}{
+    \thispagestyle{empty}%
+    \begin{center}
+    %\providecommand\pdfbookmark[3][]{} \pdfbookmark[0]{Acceptance Page}{bm:Accept}
+    \vspace*{0.375in}
+    \textbf{ACCEPTANCE PAGE}\\[2\baselineskip]
+    \@University\\[3\baselineskip]
+    \end{center}%
+    \noindent%
+    As chair of the candidate's graduate committee, I have read the
+    dissertation of \@author \ in its final form and have found
+    that (1) its format, citations, and bibliographical style are
+    consistent and acceptable and fulfill university and department
+    style requirements; (2) its illustrative materials including
+    figures, tables, and charts are in place; and (3) the final
+    manuscript is satisfactory to the graduate committee
+    and is ready for submission to the university library.
+    \datebox\hfill\signaturebox{\@Advisor, \@AdvisorTitle\\Chair, Graduate Committee\\
+    \@University}
+    \vskip 0pt plus 2fill
+    \vspace{1\baselineskip}%
+    \noindent Accepted for the Department \\ of Analytics\hfill
+    \signaturebox{\@DepRep \\Chair, Department of Analytics\\
+    \@University}
+    \vspace{1\baselineskip}%
+    \vfill \noindent Accepted for the University\hfill
+    \signaturebox{\@Dean, \\Provost \\
+    \@University}
+    \clearpage
+  }
+  
+  
 % DEDICATION
 %
 % The dedication environment makes sure the dedication gets its
@@ -252,6 +405,7 @@
 
 \newenvironment{dedication}
 {\begin{alwayssingle}
+%\providecommand\pdfbookmark[3][]{} \pdfbookmark[0]{Dedication}{bm:Dedication}
   \thispagestyle{empty}
   \vspace*{\fill} \begin{center}}
 {\end{center}\vspace*{\fill}\vspace*{\fill} \end{alwayssingle}}
@@ -266,6 +420,7 @@
 
 \newenvironment{acknowledgements}%
 {   \begin{alwayssingle}\chapter*{Acknowledgements}
+%\providecommand\pdfbookmark[3][]{} \pdfbookmark[0]{Acknowledgements}{bm:Acknowledgements}
     \thispagestyle{empty}
 	\pagestyle{empty}
 	\setlength{\baselineskip}{\frontmatterbaselineskip}
@@ -281,6 +436,7 @@
 
 \renewenvironment{abstract}%
 {   \begin{alwayssingle}\chapter*{Abstract}
+%\providecommand\pdfbookmark[3][]{} \pdfbookmark[0]{Abstract}{bm:Abstract}
     \thispagestyle{empty}
     \pagestyle{empty}
    \setlength{\baselineskip}{\frontmatterbaselineskip}}
@@ -398,7 +554,7 @@
 \global\let\@printcites\@iprintcites
 \ignorespacesafterend}
 \renewcommand{\qauthor}[1]{\par
-{\raggedleft\upshape #1\qquad\hbox{}\par}\bigskip}
+{\raggedright\upshape #1\qquad\hbox{}\par}\bigskip}
 
 % JEM: All of this is so that headers in these sections aren't uppercase
 \let\@ldtoc\tableofcontents
@@ -453,3 +609,8 @@
 % JEM: combine all of the commands you run before appendices start
 \newcommand{\startappendices}
   {\appendix\adjustmtc\noappendicestocpagenum\addappheadtotoc\appendixpage}
+  
+\usepackage{lipsum}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}

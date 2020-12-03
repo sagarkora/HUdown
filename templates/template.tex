@@ -58,8 +58,16 @@ $endif$
 \usepackage[normalem]{ulem}
 
 %UL 15 Oct 2019, enable link highlighting to be turned off from YAML
-\usepackage[colorlinks=false,pdfpagelabels,hidelinks=$hidelinks$]{hyperref}
-
+ \usepackage[colorlinks=false,pdfpagelabels,hidelinks=$hidelinks$]{hyperref}
+% \hypersetup{
+%     colorlinks=true,
+%     linkcolor=blue,
+%     filecolor=magenta,      
+%     urlcolor=cyan,
+%     bookmarks=true,
+%     breaklinks=true,
+% }
+%\usepackage{hyperref}
 %%%%% SELECT YOUR DRAFT OPTIONS
 % Three options going on here; use in any combination.  But remember to turn the first two off before
 % generating a PDF to send to the printer!
@@ -116,6 +124,28 @@ $endif$
 \title{$title$}
 \author{$author$}
 \college{$college$}
+\Year{$date.year$}
+\Month{$date.month$}
+\Department{$department$}
+\University{$university$}
+
+% Your research advisor
+  \Advisor{$advisor$}
+  \AdvisorTitle{$advisortitle$}
+
+% The representative of the department who will approve your thesis (usually the chair) 
+  \DepRep{$department-representative$}
+  \Dean{$dean$}
+  
+% The members of your graduate committee
+\MemberA{$member-a$}
+\MemberATitle{$member-a-title$}
+\MemberB{$member-b$}
+\MemberBTitle{$member-a-title$}
+\MemberC{$member-c$}
+\MemberCTitle{$member-a-title$}
+\MemberD{$member-d$}
+\MemberDTitle{$member-a-title$}
 
 % Master's candidates who require the alternate title page (with candidate number and word count)
 % must also un-comment and complete the following three lines:
@@ -139,6 +169,21 @@ $endif$
 	\newcommand{\nd}{\textsuperscript{nd}}
 	\renewcommand{\st}{\textsuperscript{st}}
 	\newcommand{\rd}{\textsuperscript{rd}}
+	
+	
+	
+\makeatletter
+\renewcommand{\@makechapterhead}[1]{\chapterheadstartvskip%
+  {\size@chapter{\sectfont
+      {\chapnumfont\raggedleft
+        \ifnum \c@secnumdepth >\m@ne%
+        \if@mainmatter\noindent\thechapter%
+        \fi\fi
+        \par\nobreak}%
+      {\interlinepenalty\@M\noindent #1\par}}
+    \nobreak\chapterheadendvskip}}
+\makeatother
+
 
 %%%%% THE ACTUAL DOCUMENT STARTS HERE
 \begin{document}
@@ -193,6 +238,14 @@ $endif$
 % Title page is created here
 \maketitle
 
+% CopyRight page
+\copyrightpage
+
+%%%%% ABSTRACT -- Nothing to do here except comment out if you don't want it.
+\begin{abstract}
+	$abstract$
+\end{abstract}
+
 %%%%% DEDICATION -- If you'd like one, un-comment the following.
 $if(dedication)$
 \begin{dedication}
@@ -200,18 +253,18 @@ $if(dedication)$
 \end{dedication}
 $endif$
 
+% Approval Page
+\phdapprovalpage
+
+% Acceptance page
+\acceptancepage
+
 %%%%% ACKNOWLEDGEMENTS -- Nothing to do here except comment out if you don't want it.
 $if(acknowledgements)$
 \begin{acknowledgements}
  	$acknowledgements$
 \end{acknowledgements}
 $endif$
-
-
-%%%%% ABSTRACT -- Nothing to do here except comment out if you don't want it.
-\begin{abstract}
-	$abstract$
-\end{abstract}
 
 %%%%% MINI TABLES
 % This lays the groundwork for per-chapter, mini tables of contents.  Comment the following line

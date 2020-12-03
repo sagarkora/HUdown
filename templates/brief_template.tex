@@ -127,6 +127,20 @@ $endif$
 	\renewcommand{\st}{\textsuperscript{st}}
 	\newcommand{\rd}{\textsuperscript{rd}}
 
+
+\makeatletter
+\renewcommand{\@makechapterhead}[1]{\chapterheadstartvskip%
+  {\size@chapter{\sectfont
+      {\chapnumfont\raggedleft
+        \ifnum \c@secnumdepth >\m@ne%
+        \if@mainmatter\noindent\thechapter%
+        \fi\fi
+        \par\nobreak}%
+      {\interlinepenalty\@M\noindent #1\par}}
+    \nobreak\chapterheadendvskip}}
+\makeatother
+
+
 %%%%% THE ACTUAL DOCUMENT STARTS HERE
 \begin{document}
 
